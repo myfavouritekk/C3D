@@ -26,6 +26,8 @@ message VolumeDatum {
   // the actual image data, in bytes
   optional bytes data = 5;
   optional int32 label = 6;
+  // store video attributes
+  repeated int32 vector_label = 999;
   // Optionally, the datum could also hold float data.
   repeated float float_data = 7;
 }
@@ -166,6 +168,7 @@ message LayerParameter {
     POOLING3D = 31;
     VOLUME_DATA = 32;
     VIDEO_DATA = 33;
+    VIDEO_ATTRIB_DATA = 999;
   }
   optional LayerType type = 5; // the layer type from the enum above
 

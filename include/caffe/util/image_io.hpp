@@ -20,6 +20,7 @@
 
 
 #include <string>
+#include <vector>
 
 #include "google/protobuf/message.h"
 #include "caffe/proto/caffe.pb.h"
@@ -32,6 +33,7 @@
 #include "caffe/blob.hpp"
 
 using std::string;
+using std::vector;
 using ::google::protobuf::Message;
 
 namespace caffe {
@@ -51,6 +53,9 @@ inline bool ReadVideoToVolumeDatum(const char* filename, const int start_frm, co
 	return ReadVideoToVolumeDatum(filename, start_frm, label, length, 0, 0, sampling_rate, datum);
 }
 
+bool ReadVideoToVolumeDatum(const char* filename, const int start_frm, const vector<int> labels,
+        const int length, const int height, const int width, const int sampling_rate, VolumeDatum* datum);
+
 bool ReadImageSequenceToVolumeDatum(const char* img_dir, const int start_frm, const int label,
 		const int length, const int height, const int width, const int sampling_rate, VolumeDatum* datum);
 
@@ -58,6 +63,9 @@ inline bool ReadImageSequenceToVolumeDatum(const char* img_dir, const int start_
 		const int length, const int sampling_rate, VolumeDatum* datum){
 	return ReadImageSequenceToVolumeDatum(img_dir, start_frm, label, length, 0, 0, sampling_rate, datum);
 }
+
+bool ReadImageSequenceToVolumeDatum(const char* img_dir, const int start_frm, const vector<int> labels,
+        const int length, const int height, const int width, const int sampling_rate, VolumeDatum* datum);
 
 template <typename Dtype>
 bool load_blob_from_binary(const string fn_blob, Blob<Dtype>* blob);

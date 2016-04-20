@@ -38,6 +38,7 @@ using std::fstream;
 using std::ios;
 using std::max;
 using std::string;
+using std::vector;
 using google::protobuf::io::FileInputStream;
 using google::protobuf::io::FileOutputStream;
 using google::protobuf::io::ZeroCopyInputStream;
@@ -221,6 +222,28 @@ bool ReadImageSequenceToVolumeDatum(const char* img_dir, const int start_frm, co
 	datum->set_data(buffer, data_size);
 	delete []buffer;
  	return true;
+}
+
+bool ReadImageSequenceToVolumeDatum(const char* img_dir, const int start_frm, const vector<int> labels,
+        const int length, const int height, const int width, const int sampling_rate, VolumeDatum* datum) {
+	// first reuse the single label function
+	ReadImageSequenceToVolumeDatum(img_dir, start_frm, 0, length, height, width, sampling_rate, datum);
+	// set vector labels
+	datum->clear_label();
+	for (int i = 0; i < labels.size(); i++) {
+		datum->add_vector_label(labels[i]);
+	}
+}
+
+bool ReadVideoToVolumeDatum(const char* filename, const int start_frm, const vector<int> labels,
+        const int length, const int height, const int width, const int sampling_rate, VolumeDatum* datum) {
+	// first reuse the single label function
+	ReadVideoToVolumeDatum(filename, start_frm, 0, length, height, width, sampling_rate, datum);
+	// set vector labels
+	datum->clear_label();
+	for (int i = 0; i < labels.size(); i++) {
+		datum->add_vector_label(labels[i]);
+	}
 }
 
 template <>
